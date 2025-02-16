@@ -7,13 +7,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class CodingExamB {
-	/*
+	 /*
 	 * This is a logging program for collecting TODO comments in a program. The program will scan
 	 * Through all the files in the Coding_Exam_B/classes package, and collect all the comments that start
 	 * with //TODO: and write them to their own file. See the TODO_Log_example.txt file for an idea of what 
 	 * the final file output will look like.
 	 */
-	
+	static String combined = "";
 	
 	public static String getLoggingInfo(String fileName) {
 		/*
@@ -24,6 +24,29 @@ public class CodingExamB {
 		 *    into one large String. The string will also state the file name and
 		 *    the line number for where each TODO was found. 
 		*/
+		
+		
+			try {
+				
+				BufferedReader br = new BufferedReader(new FileReader(fileName));
+			br.lines().forEach((String s)->{
+				if(s.contains("TODO")) {
+					combined = s;
+				}
+				//this only gets the last todo of each thing so gotta figure out how to fix that
+				//if I do +=s then for some reason it repeats a ton of stuff
+				//gotta figure out exactly what lines() does
+				
+				
+			});
+			
+			} catch (FileNotFoundException e) {
+				
+
+				e.printStackTrace();
+			}
+			System.out.println(combined);
+			
 		
 		return "";
 	}
