@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.LineNumberReader;
 
 public class CodingExamB {
 	 /*
@@ -14,7 +15,7 @@ public class CodingExamB {
 	 * the final file output will look like.
 	 */
 	static String combined = "";
-	
+	static int count = 0;
 	public static String getLoggingInfo(String fileName) {
 		/*
 		 * 1. Complete the getLoggingInfoMethod.
@@ -24,14 +25,18 @@ public class CodingExamB {
 		 *    into one large String. The string will also state the file name and
 		 *    the line number for where each TODO was found. 
 		*/
-		
-		
+		combined = "";
+		count = 0;
 			try {
 				
 				BufferedReader br = new BufferedReader(new FileReader(fileName));
-			br.lines().forEach((String s)->{
-				if(s.contains("TODO")) {
-					combined = s;
+				combined += "\nFile: " +fileName + "\n";
+				
+				br.lines().forEach((String s)->{
+				count++;
+					
+					if(s.contains("TODO")) {
+					combined += count+ ": " + s+ "\n";
 				}
 				//this only gets the last todo of each thing so gotta figure out how to fix that
 				//if I do +=s then for some reason it repeats a ton of stuff
@@ -45,21 +50,38 @@ public class CodingExamB {
 
 				e.printStackTrace();
 			}
-			System.out.println(combined);
 			
-		
-		return "";
+			
+			
+		combined = combined.replaceAll("\t", "");
+			
+			
+			//System.out.println("combined:"  + combined);
+			//not sure how to get line number
+		return combined;
 	}
 	
 	public static void main(String[] args) {
 		String finalLogString = getLoggingInfo("src/Coding_Exam_B/classes/Camera.java");
+		
 		finalLogString += getLoggingInfo("src/Coding_Exam_B/classes/RayTracedImageViewer.java");
+		
 		finalLogString += getLoggingInfo("src/Coding_Exam_B/classes/RayTracer.java");
+		
 		finalLogString += getLoggingInfo("src/Coding_Exam_B/classes/Vector3.java");
 		
 		/*
 		 * 2. Write the finalLogString to a file called TODO_Log.txt. The file should match TODO_Log_example.txt. 
 		 */
-
+		try {
+			FileWriter fw = new FileWriter("TODO_Log.txt");
+			fw.write(finalLogString);
+			fw.close();
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
 	}
 }
